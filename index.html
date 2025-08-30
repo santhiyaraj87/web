@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>R.Santhiya | Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@700&family=Poppins:wght@300;400;600&display=swap');
+
+    :root {
+      --primary-bg: #0A192F;
+      --accent-cyan: #64FFDA;
+      --accent-blue: #00BFFF;
+      --text-light: #CCD6F6;
+      --text-white: #FFFFFF;
+      --font-heading: 'Exo 2', sans-serif;
+      --font-body: 'Poppins', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--primary-bg);
+      color: var(--text-light);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      animation: fadeInPage 1s ease-in-out;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+    h1,h2,h3 { font-family: var(--font-heading); color: var(--text-white); margin-bottom: 1rem; }
+    h1 { font-size: 3.5rem; }
+    h2 { font-size: 2.5rem; border-bottom: 3px solid var(--accent-blue); display: inline-block; padding-bottom: 0.5rem; }
+    h3 { font-size: 1.8rem; color: var(--accent-cyan); }
+    p { margin-bottom: 1rem; }
+    a { color: var(--accent-cyan); text-decoration: none; transition: color 0.3s ease; }
+    a:hover { color: var(--accent-blue); }
+
+    /* Header */
+    .header {
+      background: rgba(10,25,47,0.85);
+      backdrop-filter: blur(10px);
+      padding: 1rem 2rem;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo { font-family: var(--font-heading); font-size: 1.5rem; color: var(--text-white); }
+    .logo span { color: var(--accent-cyan); }
+    .nav-links { list-style: none; display: flex; }
+    .nav-links li { margin-left: 2rem; }
+    .nav-links a {
+      font-weight: 600;
+      position: relative;
+      padding-bottom: 5px;
+      cursor: pointer;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; width: 0; height: 2px;
+      background-color: var(--accent-cyan);
+      transition: width 0.3s ease-out;
+    }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--accent-cyan); }
+    .nav-links a.active::after { width: 100%; }
+
+    main { padding-top: 80px; }
+    .section {
+      padding: 6rem 0;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease-out forwards;
+      animation-play-state: paused;
+    }
+    .hidden { display: none; }
+
+    /* Hero */
+    .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; text-align: left; }
+    .hero h1 { animation: glitch 1.5s 1s forwards; }
+    .hero .subtitle { font-size: 1.5rem; font-weight: 300; margin-top: 0.5rem; opacity: 0; animation: fadeIn 1s 2s forwards; }
+
+    .btn {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.8rem 2rem;
+      border: 2px solid var(--accent-cyan);
+      border-radius: 5px;
+      color: var(--accent-cyan);
+      font-weight: 600;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      background: transparent;
+      font-family: var(--font-body);
+    }
+    .btn:hover {
+      background-color: var(--accent-cyan);
+      color: var(--primary-bg);
+      box-shadow: 0 0 20px var(--accent-cyan);
+    }
+
+    /* Timeline */
+    .timeline { position: relative; max-width: 800px; margin: 4rem auto; }
+    .timeline::after { content: ''; position: absolute; width: 4px; background-color: var(--accent-blue); top:0; bottom:0; left:50%; margin-left:-2px; }
+    .timeline-item { padding: 1rem 2.5rem; position: relative; width: 50%; }
+    .timeline-item:nth-child(odd) { left:0; text-align:right; }
+    .timeline-item:nth-child(even) { left:50%; }
+    .timeline-content { background:#112240; padding:1.5rem; border-radius:8px; border-left:5px solid var(--accent-cyan); }
+    .timeline-item:nth-child(odd) .timeline-content { border-left:none; border-right:5px solid var(--accent-cyan); }
+    .timeline-date { font-weight:600; color: var(--accent-blue); }
+    .cgpa, .score { font-size:1.5rem; font-weight:700; color: var(--text-white); }
+
+    /* Skills */
+    .skills-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap:1.5rem; margin-top:3rem; }
+    .skill-card { background:#112240; padding:2rem 1rem; text-align:center; border-radius:8px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .skill-card:hover { transform: translateY(-10px); box-shadow:0 10px 20px rgba(0,0,0,0.2); }
+    .skill-card i { font-size:3rem; color: var(--accent-cyan); margin-bottom:1rem; }
+
+    /* Projects */
+    .projects-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap:2rem; margin-top:3rem; }
+    .project-card { background:#112240; border-radius:8px; overflow:hidden; position:relative; transition: transform 0.3s ease; }
+    .project-card:hover { transform: translateY(-5px); }
+    .project-image { width:100%; height:200px; background: linear-gradient(45deg,var(--accent-cyan),var(--accent-blue)); display:flex; align-items:center; justify-content:center; color:var(--primary-bg); font-size:2rem; font-weight:bold; }
+    .project-info { padding:1.5rem; }
+
+    /* Contact */
+    .contact-form { max-width:700px; margin:3rem auto; text-align:center; }
+    .form-group { margin-bottom:1.5rem; }
+    .form-group input, .form-group textarea { width:100%; padding:0.8rem; background:#112240; border:2px solid var(--text-light); border-radius:5px; color:var(--text-white); font-family: var(--font-body); transition:border-color 0.3s ease; }
+    .form-group input:focus, .form-group textarea:focus { outline:none; border-color: var(--accent-cyan); }
+
+    /* Animations */
+    @keyframes fadeInPage { from{opacity:0;} to{opacity:1;} }
+    @keyframes fadeInUp { from{opacity:0; transform:translateY(30px);} to{opacity:1; transform:translateY(0);} }
+    @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+    @keyframes glitch {
+      0%,100%{ text-shadow:none; transform:none; }
+      25%{ text-shadow:-2px 2px 0 var(--accent-cyan), 2px -2px 0 var(--accent-blue); transform:translate(-2px,2px); }
+      50%{ text-shadow:2px -2px 0 var(--accent-cyan), -2px 2px 0 var(--accent-blue); transform:translate(2px,-2px); }
+      75%{ text-shadow:none; transform:none; }
+    }
+
+    @media(max-width:768px) {
+      h1{font-size:2.5rem;} h2{font-size:2rem;}
+      .nav-links{display:none;}
+      .timeline::after{left:30px;}
+      .timeline-item{width:100%; padding-left:70px; padding-right:25px;}
+      .timeline-item:nth-child(even){left:0;}
+      .timeline-item:nth-child(odd) .timeline-content,
+      .timeline-item:nth-child(even) .timeline-content{ text-align:left; border-right:none; border-left:5px solid var(--accent-cyan);}
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">R.<span>Santhiya</span></div>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="#" data-page="home" class="active">Home</a></li>
+      <li><a href="#" data-page="about">About</a></li>
+      <li><a href="#" data-page="skills">Skills</a></li>
+      <li><a href="#" data-page="projects">Projects</a></li>
+      <li><a href="#" data-page="contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <!-- Home -->
+  <section id="home" class="hero container section">
+    <div>
+      <p class="subtitle">Hi, my name is</p>
+      <h1>R.Santhiya</h1>
+      <h1 class="subtitle">I build things for the web.</h1>
+      <p>I'm a final-year engineering student specializing in Artificial Intelligence & Data Science, with a passion for creating modern digital experiences.</p>
+      <button class="btn" onclick="showPage('projects')">View My Work</button>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section container hidden">
+    <h2>Education</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <h3>B.Tech - Artificial Intelligence & Data Science</h3>
+          <p class="timeline-date">2022 - 2026</p>
+          <p>DMI Engineering College, Aralvaimozhi</p>
+          <p class="cgpa">CGPA: 7.84 (Till 5th Sem)</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <h3>Higher Secondary (HSLC)</h3>
+          <p class="timeline-date">2022</p>
+          <p> Government Higher Secondary School, Thittuvillai</p>
+          <p class="score">Score: 64%</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <h3>Secondary School (SSLC)</h3>
+          <p class="timeline-date">2020</p>
+          <p>Government Higher Secondary School, Thittuvillai</p>
+          <p class="score">Score: 80.8%</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="section container hidden">
+    <h2>Technical Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-card"><i class="fa-brands fa-python"></i><h3>Python</h3></div>
+      <div class="skill-card"><i class="fa-solid fa-brain"></i><h3>Machine Learning</h3></div>
+      <div class="skill-card"><i class="fa-solid fa-database"></i><h3>SQL</h3></div>
+      <div class="skill-card"><i class="fa-brands fa-html5"></i><h3>HTML5</h3></div>
+      <div class="skill-card"><i class="fa-brands fa-css3-alt"></i><h3>CSS3</h3></div>
+      <div class="skill-card"><i class="fa-solid fa-chart-simple"></i><h3>Data Visualization</h3></div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="section container hidden">
+    <h2>My Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-image">AI Project</div>
+        <div class="project-info">
+          <h3>Machine Learning Dashboard</h3>
+          <p>A comprehensive dashboard for visualizing ML model performance with interactive charts.</p>
+          <a href="#" class="btn">View on GitHub</a>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-image">Web App</div>
+        <div class="project-info">
+          <h3>Data Visualization Tool</h3>
+          <p>An interactive web app for creating beautiful data visualizations using Python & web tech.</p>
+          <a href="#" class="btn">View on GitHub</a>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-image">AI Model</div>
+        <div class="project-info">
+          <h3>Predictive Analytics System</h3>
+          <p>A machine learning system for predictive analytics with advanced algorithms.</p>
+          <a href="#" class="btn">View on GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section container hidden">
+    <h2>Get In Touch</h2>
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <p>My inbox is always open. Feel free to say hi!</p>
+      <div class="form-group"><input type="text" name="name" placeholder="Your Name" required></div>
+      <div class="form-group"><input type="email" name="email" placeholder="Your Email" required></div>
+      <div class="form-group"><textarea name="message" rows="5" placeholder="Your Message" required></textarea></div>
+      <button type="submit" class="btn">Send Message</button>
+    </form>
+  </section>
+</main>
+
+<script>
+function showPage(pageId) {
+  const sections = document.querySelectorAll('.section');
+  sections.forEach(s => s.classList.add('hidden'));
+  document.getElementById(pageId).classList.remove('hidden');
+
+  const navLinks = document.querySelectorAll('.nav-links a');
+  navLinks.forEach(link => link.classList.remove('active'));
+  document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
+}
+
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const pageId = link.getAttribute('data-page');
+    showPage(pageId);
+  });
+});
+
+function handleSubmit(event) {
+  event.preventDefault();
+  alert('Thank you for your message! This is a demo form.');
+  event.target.reset();
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) entry.target.style.animationPlayState='running';
+  });
+}, {threshold:0.1, rootMargin:'0px 0px -50px 0px'});
+
+document.querySelectorAll('.section').forEach(section => observer.observe(section));
+</script>
+
+</body>
+</html>
